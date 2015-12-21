@@ -1,5 +1,5 @@
 {
-    "name": "dolphin-acl-web-package",
+    "name": "dolphin-acl-web-module",
     "version": "0.1.0",
     "description": "Acl manager for web server",
     "author": {
