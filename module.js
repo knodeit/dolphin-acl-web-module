@@ -13,7 +13,7 @@ aclManager.configureFactories(function (MongooseConfigurationFactory, WebServerC
 });
 
 aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFactory) {
-    MongooseConfigurationFactory.events.end.promise.then(function () {
+    MongooseConfigurationFactory.events.end.then(function () {
         //load models
         var modules = AclManagerConfigurationFactory.getModules();
         for (var i in modules) {
