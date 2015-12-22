@@ -21,6 +21,9 @@ package_folder
         some acl files.js 
 ```
 
+### Namespace
+
+`NAME_OF_MODULE.acl.ALL_METHOD_FROM_ACL`
 
 * Acl file
 

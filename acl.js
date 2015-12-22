@@ -315,9 +315,9 @@ var acl = {
     }
 };
 
-
 module.exports = function (module) {
     //merge
-    _.assign(module, acl);
-    module._run();
+    module.acl = {};
+    _.assign(module.acl, acl);
+    module.acl._run();
 };
