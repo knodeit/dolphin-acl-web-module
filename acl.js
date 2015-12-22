@@ -110,6 +110,7 @@ function _checkAccessByEntity($this, entity, user, method) {
 var acl = {
     _run: function () {
         this.matrix = null;
+        this.aclPromise = Q.resolve();
 
         //load own acl
         var files = FSUtil.readDirSync(this.source + '/server/acl/**/*.js');
@@ -119,11 +120,14 @@ var acl = {
             //load acl
             if (this.matrix.routers) {
                 this._saveRoles(this.matrix.routers);
-                this._init(this.matrix.routers);
+                this.aclPromise = this._init(this.matrix.routers);
             }
         }.bind(this));
 
         this._loadLabels();
+    },
+    _getPromise: function () {
+        return this.aclPromise;
     },
     _loadLabels: function () {
         if (!this.matrix) {
@@ -317,7 +321,6 @@ var acl = {
 
 module.exports = function (module) {
     //merge
-    module.acl = {};
-    _.assign(module.acl, acl);
-    module.acl._run();
+    _.assign(module, acl);
+    module._run();
 };

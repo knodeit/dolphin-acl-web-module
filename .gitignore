@@ -47,3 +47,4 @@ logs/
 # --------------------
 .bower-*/
 bower_components
+matrix.js
