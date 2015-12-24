@@ -38,7 +38,7 @@ aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFa
                 //making a file
                 var file = __dirname + '/matrix.js';
                 fs.writeFileSync(file, 'window.dolphin.aclMatrix=' + JSON.stringify(obj) + ';', 'utf-8');
-                AssetManagerConfigurationFactory.addCustomScript(file);
+                AssetManagerConfigurationFactory.addVendorScriptAfter(file);
 
                 deferred.resolve();
             });
