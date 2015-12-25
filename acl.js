@@ -115,7 +115,6 @@ var acl = {
         //load own acl
         var files = FSUtil.readDirSync(module.source + '/server/acl/**/*.js');
         files.forEach(function (file) {
-            console.log(file);
             this.matrix = require(file)();
 
             //load acl
