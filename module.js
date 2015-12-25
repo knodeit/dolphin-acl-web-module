@@ -5,17 +5,16 @@
 var Module = require('dolphin-core-modules').Module;
 var aclManager = new Module('AclManager', __dirname);
 var Q = require('q');
-var fs = require('fs');
 var deferred = Q.defer();
 
-aclManager.configureFactories(function (MongooseConfigurationFactory, AssetManagerConfigurationFactory, AngularJsConfigurationFactory) {
-    AssetManagerConfigurationFactory.addPromise(deferred.promise);
+aclManager.configureFactories(function (MongooseConfigurationFactory, JsExporterConfigurationFactory, AngularJsConfigurationFactory) {
+    JsExporterConfigurationFactory.addPromise(deferred.promise);
     MongooseConfigurationFactory.addModule(aclManager);
     MongooseConfigurationFactory.plugins.push(__dirname + '/auditing.js');
     AngularJsConfigurationFactory.addModule('dolphin.aclManager', aclManager);
 });
 
-aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFactory, AssetManagerConfigurationFactory) {
+aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFactory, JsExporterConfigurationFactory) {
     MongooseConfigurationFactory.events.end.then(function () {
         //load models
         var funcs = [];
@@ -33,13 +32,8 @@ aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFa
                 return deferred.resolve();
             }
 
-            module.getAngularObj().then(function (obj) {
-
-                //making a file
-                var file = __dirname + '/matrix.js';
-                fs.writeFileSync(file, 'window.dolphin.aclMatrix=' + JSON.stringify(obj) + ';', 'utf-8');
-                AssetManagerConfigurationFactory.addVendorScriptAfter(file);
-
+            module.getAngularObj().then(function (matrix) {
+                JsExporterConfigurationFactory.addObject('aclMatrix', matrix);
                 deferred.resolve();
             });
         });

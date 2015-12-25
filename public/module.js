@@ -4,11 +4,11 @@
 'use strict';
 
 angular.module('dolphin.aclManager', []).provider('AclManager', function () {
+    this.getMatrix = function () {
+        return $dolphin.getObject('aclMatrix');
+    };
+
     this.$get = [function () {
-        return {
-            getMatrix: function () {
-                return window.dolphin.aclMatrix;
-            }
-        };
+        return {};
     }];
 });
