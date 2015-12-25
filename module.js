@@ -22,7 +22,7 @@ aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFa
         var modules = AclManagerConfigurationFactory.getModules();
         for (var i in modules) {
             require('./acl')(modules[i]);
-            funcs.push(modules[i]._getPromise());
+            funcs.push(modules[i].acl._getPromise());
             module = modules[i];
         }
 
@@ -32,7 +32,7 @@ aclManager.run(function (AclManagerConfigurationFactory, MongooseConfigurationFa
                 return deferred.resolve();
             }
 
-            module.getAngularObj().then(function (matrix) {
+            module.acl.getAngularObj().then(function (matrix) {
                 JsExporterConfigurationFactory.addObject('aclMatrix', matrix);
                 deferred.resolve();
             });

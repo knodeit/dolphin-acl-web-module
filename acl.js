@@ -108,13 +108,14 @@ function _checkAccessByEntity($this, entity, user, method) {
 }
 
 var acl = {
-    _run: function () {
+    _run: function (module) {
         this.matrix = null;
         this.aclPromise = Q.resolve();
 
         //load own acl
-        var files = FSUtil.readDirSync(this.source + '/server/acl/**/*.js');
+        var files = FSUtil.readDirSync(module.source + '/server/acl/**/*.js');
         files.forEach(function (file) {
+            console.log(file);
             this.matrix = require(file)();
 
             //load acl
@@ -321,6 +322,7 @@ var acl = {
 
 module.exports = function (module) {
     //merge
-    _.assign(module, acl);
-    module._run();
+    module.acl = {};
+    _.assign(module.acl, acl);
+    module.acl._run(module);
 };

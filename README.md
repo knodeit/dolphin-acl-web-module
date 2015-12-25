@@ -60,7 +60,7 @@ module.exports = function () {
 };
 ```
 
-* Your module will get the following methods: 
+* Your module will get the following methods(namespace is `acl`): 
 
 1) getRolesByEntity(entity) - return list of roles
 
