@@ -1,6 +1,6 @@
 {
     "name": "dolphin-acl-web-module",
-    "version": "0.5.4",
+    "version": "0.5.5",
     "description": "Acl manager for web server",
     "author": {
         "name": "LPG Labs"

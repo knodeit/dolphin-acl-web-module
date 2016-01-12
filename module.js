@@ -10,7 +10,6 @@ var deferred = Q.defer();
 aclManager.configureFactories(function (MongooseConfigurationFactory, JsExporterConfigurationFactory, AngularJsConfigurationFactory) {
     JsExporterConfigurationFactory.addPromise(deferred.promise);
     MongooseConfigurationFactory.addModule(aclManager);
-    MongooseConfigurationFactory.plugins.push(__dirname + '/auditing.js');
     AngularJsConfigurationFactory.addModule('dolphin.aclManager', aclManager);
 });
 
