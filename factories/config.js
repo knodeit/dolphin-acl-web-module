@@ -2,6 +2,7 @@
  * Created by Vadim on 12/9/15.
  */
 'use strict';
+var _ = require('lodash');
 var modules = [];
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
             modules.push(module);
         },
         getModules: function () {
-            return modules;
+            return _.uniq(modules);
         }
     }
 };
