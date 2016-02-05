@@ -3,12 +3,23 @@
  */
 'use strict';
 
-angular.module('dolphin.aclManager', []).provider('AclManager', function () {
-    this.getMatrix = function () {
-        return $dolphin.getObject('aclMatrix');
+angular.module('dolphin.aclManager', ['mm.acl']).factory('AccessService', ['AclService', function (AclService) {
+    return {
+        canRead: function (entity) {
+            return AclService.can(entity + '_view');
+        },
+        canCreate: function (entity) {
+            return AclService.can(entity + '_create');
+        },
+        canEdit: function (entity) {
+            return AclService.can(entity + '_edit');
+        },
+        canDelete: function (entity) {
+            return AclService.can(entity + '_delete');
+        }
     };
-
-    this.$get = [function () {
-        return {};
-    }];
-});
+}
+]).run(['AclService', function (AclService) {
+    //init ACL
+    AclService.setAbilities($dolphin.getObject('aclMatrix'));
+}]);
