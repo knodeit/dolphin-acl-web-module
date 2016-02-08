@@ -7,7 +7,7 @@ var aclManager = new Module('AclManager', __dirname);
 var Q = require('q');
 var deferred = Q.defer();
 
-aclManager.configureFactories(function (MongooseConfigurationFactory, JsExporterConfigurationFactory, AngularJsConfigurationFactory) {
+aclManager.configureFactories(function (MongooseConfigurationFactory, JsExporterConfigurationFactory, AngularJsConfigurationFactory, AssetManagerConfigurationFactory) {
     JsExporterConfigurationFactory.addPromise(deferred.promise);
     MongooseConfigurationFactory.addModule(aclManager);
     AngularJsConfigurationFactory.addModule('dolphin.aclManager', aclManager);
