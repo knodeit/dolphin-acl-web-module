@@ -9,18 +9,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var AclRoleSchema = new Schema({
-    name: {
-        type: String,
-        default: ''
-    },
-    role: {
-        type: String,
-        default: ''
-    },
-    isDefault: {
-        type: Boolean,
-        default: false
-    }
+    name: {type: String, default: ''},
+    role: {type: String, default: ''},
+    registrationRole: {type: Boolean, default: false}
 },{collection: 'kn_acl_roles'});
 AclRoleSchema.index({role: 1});
 
@@ -28,7 +19,7 @@ AclRoleSchema.pre('save', function (next) {
     var $this = this;
     var Acl = mongoose.model('Acl');
     if ($this.auditing.deleted) {
-        if (!$this.auditing.canbedeleted || $this.isDefault) {
+        if (!$this.auditing.canbedeleted || $this.registrationRole) {
             return next(new Error('Row can not be deleted'));
         }
         Acl.update({role: this.role}, {'auditing.deleted': true}, {multi: true}).exec(function () {
@@ -67,12 +58,12 @@ AclRoleSchema.path('role').validate(function (value, callback) {
 AclRoleSchema.statics.setDefaultRole = function (role) {
     var deferred = Q.defer();
     var AclRole = mongoose.model('AclRole');
-    AclRole.update({}, {isDefault: false}, {multi: true}).exec(function () {
+    AclRole.update({}, {registrationRole: false}, {multi: true}).exec(function () {
         AclRole.findOne({role: role}).exec(function (err, row) {
             if (!row) {
                 return deferred.reject(new Error('Row not found'));
             }
-            row.isDefault = true;
+            row.registrationRole = true;
             row.save(function (err, row) {
                 if (!row) {
                     return deferred.reject(new Error('Row was not updated'));
