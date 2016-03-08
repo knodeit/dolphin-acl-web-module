@@ -124,18 +124,18 @@ var acl = {
             }
         }.bind(this));
 
-        this._loadLabels();
+        this._loadLabels(module);
     },
     _getPromise: function () {
         return this.aclPromise;
     },
-    _loadLabels: function () {
+    _loadLabels: function (module) {
         if (!this.matrix) {
             return;
         }
 
         this.matrix.labels.forEach(function (item) {
-            _loadLabel(this.name, this.matrix.label, item);
+            _loadLabel(module.name, this.matrix.label, item);
         }.bind(this));
     },
     _saveRoles: function (routers) {
