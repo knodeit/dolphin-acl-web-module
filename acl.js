@@ -266,8 +266,9 @@ var acl = {
     checkAccess: function (entity) {
         var $this = this;
         return function (req, res, next) {
-            if (!req.user) {
-                return res.status(403).send('User is not authorized');
+            var roles = req.user ? req.user.roles.slice() : ['guest'];
+            if (req.user && req.user._id) {
+                roles.push('authenticated');
             }
 
             $this._getAllow(entity).then(function (rows) {
@@ -276,10 +277,8 @@ var acl = {
                 }
 
                 var method = req.method.toLowerCase();
-                var roles = req.user.roles.slice();
                 var isAllow = false;
 
-                roles.push('authenticated');
                 main:
                     for (var i in roles) {
                         var userRole = roles[i];
